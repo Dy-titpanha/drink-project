@@ -1,0 +1,23 @@
+# IDEs and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Angular build and cache
+frontend/.angular/
+frontend/dist/
+
+# Environments and backups
+.env
+backend/.env
+laravel-backup/
+.env.backup
+.env.production
+auth.json

@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+use Illuminate\Foundation\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+define('LARAVEL_START', microtime(true));
+
+// This project uses Laravel 13 / Symfony 8.1, which require PHP >= 8.4
+// (property hooks). Running it on an older interpreter dies with a cryptic
+// "syntax error ... in Request.php line 117" while parsing the vendor files,
+// so bail out early with instructions instead.
+if (PHP_VERSION_ID < 80400) {
+    fwrite(STDERR, sprintf(
+        "\n  ✖ PHP %s is not supported — this project requires PHP >= 8.4.\n".
+        "    Use the bundled WAMP binary:\n".
+        "      C:\\wamp\\bin\\php\\php8.4.0\\php.exe artisan serve --host=127.0.0.1 --port=8000\n".
+        "    Or simply double-click start.bat in the repo root.\n\n",
+        PHP_VERSION
+    ));
+    exit(1);
+}
+
+// Register the Composer autoloader...
+require __DIR__.'/vendor/autoload.php';
+
+// Bootstrap Laravel and handle the command...
+/** @var Application $app */
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$status = $app->handleCommand(new ArgvInput);
+
+exit($status);
